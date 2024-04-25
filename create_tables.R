@@ -6,15 +6,15 @@ library(gapminder)
 library(tidyverse)
 library(ggplot2)
 
-#Gera tabela dos modelos de regressão no console e coloca ela como data frame
+#Generates a table of regression models in the console and places it as a data frame
 a <- export_summs(modelo_saepe_port_rel, modelo_saepe_mat_rel, modelo_saeb_mat_rel,
              modelo_saeb_port_rel,
              scale = TRUE, error_format = "(p = {p.value})")
-#limpeza remove primeira e última linha
+#cleanup removes first and last line
 linhas_para_manter <- !(rownames(a) %in% c("1", ".1"))
 df_sem_linhas <- a[linhas_para_manter, ]
 
-#Gerar figura da tabela de regressão ver https://gt.rstudio.com/
+#Generate regression table. For more information see: gt.rstudio.com/
 df_sem_linhas %>%
   gt() %>%
   tab_header(
@@ -25,11 +25,6 @@ df_sem_linhas %>%
     footnote = "Todos os preditores contínuos são centrados na média e dimensionados em 1 desvio padrão. 
     A variável dependente está em suas unidades originais.  *** p < 0.001;  ** p < 0.01;  * p < 0.05."
   )
-
-
-
-
-
 
 prop$`% do corpus (γ)` <- prop$`% do corpus (γ)` * 100
 
