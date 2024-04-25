@@ -1,27 +1,27 @@
-# Definir os valores para a interseção dos eixos
+# Define the values ​​for the intersection of the axes
 intersecao_x <- 297.7
 intersecao_y <- 523.5
 intersecao_x_saeb <- 213.4
 intersecao_x_educacaototal <- 254.5
 
-# Criar o gráfico de dispersão
+# Create scatter plot graphic
 plot(base_reeleitos$saepe_total, base_reeleitos$itmpe_17,
      xlab = "saepe_total", ylab = "itmpe_17",
      main = "Gráfico de Dispersão: saepe_total vs. itmpe_17",
      )  # Limitar os eixos para criar os quadrantes
 
-# Adicionar linhas verticais e horizontais para mover os eixos
+# Add vertical and horizontal lines to move axes
 abline(v = intersecao_x, col = "red")  # linha vertical para o eixo y
 abline(h = intersecao_y, col = "blue") # linha horizontal para o eixo x
 
-# Adicionar legendas para as linhas
+# add subtitles to the legends
 legend("topright", legend = c("saepe_total = 297.7", "itmpe_17 = 523.5"),
        col = c("red", "blue"), lty = 1, cex = 0.8)
 
+#trying do better with ggplot2
 library(ggplot2)
 
-
-# Criar o gráfico com nomes das cidades
+# Create graphic with the cities names
 grafico_todos_nm_municipio <- ggplot(base_final, aes(x = (saepe_port + saepe_mat) / 2, y = itmpe_17, color = quadrantes, label = municipio)) +
   geom_text(size = 3) +
   labs(x = "Proeficiência Média SAEPE", y = "Indice de Transparência de Municípios de Pernambuco",
@@ -40,7 +40,7 @@ ggsave(
   dpi = 1200,
   plot = last_plot())
 
-# Criar o gráfico de dispersão com nomes os municipios
+# Create scatter plot with the cities names replacing the geom_point
 
 ggplot(na.omit(base_final), aes(x = educacao, y = itmpe_17, color = quadrantes_total, label = municipio)) +
   geom_point() +
@@ -63,7 +63,7 @@ ggsave(
   dpi = 600,
   plot = last_plot())
 
-#Gráfico filtrado
+# Graphic with filter
 
 na.omit(base_final) %>%
   filter(houve_reeleicao == "Sim", dist_rec < 100) %>%
@@ -147,10 +147,10 @@ ggplot(base_final, aes(x = itmpe_17)) +
   labs(x = "Índice de Transparência de Municípios do TCE-PE", y = "Frequência", title = "Histograma de itmpe_17") +
   theme_minimal()
 
-# Calculando a mediana de itmpe_17
+# Median calculation of itmpe_17
 mediana <- median(base_final$itmpe_17, na.rm = TRUE)
 
-# Criar o histograma com ggplot2
+# Create histogram wiht ggplot2
 ggplot(base_final, aes(x = itmpe_17)) +
   geom_histogram(binwidth = 50, fill = "skyblue", color = "black", alpha = 0.7) +
   geom_vline(xintercept = mediana, color = "black", linetype = "dashed", size = 1) +  # Adicionar linha representando a mediana
@@ -158,11 +158,11 @@ ggplot(base_final, aes(x = itmpe_17)) +
   annotate("text", x = mediana, y = 10, label = paste("Mediana:", round(mediana, 2)), vjust = -1) +  # Adicionar texto com o valor da mediana
   theme_minimal()
 
-# Calculando a mediana de saeb_total e saepe_total
+# Median calculation of saeb_total e saepe_total
 mediana_saeb_total <- median(base_final$saeb_total, na.rm = TRUE)
 mediana_saepe_total <- median(base_final$saepe_total, na.rm = TRUE)
 
-# Criar o histograma para saeb_total
+# Create histogram for saeb_total
 hist_saeb_total <- ggplot(base_final, aes(x = saeb_total)) +
   geom_histogram(binwidth = 10, fill = "#00468A", color = "black", alpha = 0.7) +
   geom_vline(xintercept = mediana_saeb_total, color = "black", linetype = "dashed", size = 1) +
@@ -170,7 +170,7 @@ hist_saeb_total <- ggplot(base_final, aes(x = saeb_total)) +
   labs(x = "Proficiência Média SAEB", y = "Frequência", title = "Histograma Proficiência Média SAEB") +
   theme_minimal()
 
-# Criar o histograma para saepe_total
+# Create histogram for saepe_total
 hist_saepe_total <- ggplot(base_final, aes(x = saepe_total)) +
   geom_histogram(binwidth = 10, fill = "#BB001C", color = "black", alpha = 0.7) +
   geom_vline(xintercept = mediana_saepe_total, color = "black", linetype = "dashed", size = 1) +
@@ -178,7 +178,7 @@ hist_saepe_total <- ggplot(base_final, aes(x = saepe_total)) +
   labs(x = "Proficiência Média SAEPE", y = "Frequência", title = "Histograma Proficiência Média SAEPE") +
   theme_minimal()
 
-# Exibir os histogramas
+# View histograms
 hist_saeb_total
 hist_saepe_total
 
